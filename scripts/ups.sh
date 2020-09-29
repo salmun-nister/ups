@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LOG_FILE='/home/pi/ups/ups.log';
+
 #GPIO17 (input) used to read current power status. 
 #0 - normal (or battery power switched on manually). 
 #1 - power fault, swithced to battery. 
@@ -22,6 +24,8 @@ ups_online1="0";
 ups_online2="0";
 ups_online_timer="0";
 
+echo "$(date +%F_%T) - UPS script started" >> $LOG_FILE;
+
 while true
 do
 	#read GPIO27 pin value
@@ -40,8 +44,7 @@ do
 	fi
 	
 	#reset all timers if ups is offline longer than 3s (no toggling detected)
-	if (("$ups_online_timer" > 30)); 
-	then
+	if (("$ups_online_timer" > 30)); then
 		echo "$ups_online_timer";
 		
 		ups_online_timer=30;
@@ -49,27 +52,28 @@ do
 		inval_power=0;
 		#echo "UPS offline. Exit";
 		#exit;
-	fi		
+	fi
 
 	#read GPIO17 pin value
 	inval_power=$(cat /sys/class/gpio/gpio17/value);
 	
-#	echo $inval_power;
+	#echo $inval_power;
 	
 	if (( "$inval_power" == 1 )); then
 		power_timer=$((power_timer+1));
-		echo "$power_timer";
+		#echo "$power_timer";
+		echo "$(date +%F_%T) - On UPS power for $power_timer ms" >> $LOG_FILE;
 	else 
 		power_timer=0;
+		echo "$(date +%F_%T) - On mains power" >> $LOG_FILE;
 	fi
 	
 	#If power was not restored in 10 seconds
-	if (( "$power_timer" == 100 )); then 
-		#echo $power_timer;
-		echo "Powering off..."
-		sleep 2;
-		systemctl poweroff; #turn off
-		exit;
-	fi	
+	# if (( "$power_timer" == 100 )); then 
+	# 	#echo $power_timer;
+	# 	echo "$(date +%F_%T) - Powering off..." >> $LOG_FILE;
+	# 	sleep 2;
+	# 	systemctl poweroff; #turn off
+	# 	exit;
+	# fi
 done
-	
