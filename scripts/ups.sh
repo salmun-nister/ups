@@ -58,6 +58,7 @@ do
 	
 	if (( "$inval_power" == 1 )); then
 		power_timer=$((power_timer+1));
+		echo "$power_timer";
 	else 
 		power_timer=0;
 	fi
