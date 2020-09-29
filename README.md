@@ -1,13 +1,13 @@
-## bash script to talk to the ups board
+# Bash script to talk to the ups board
 
-# change the permissions for the script 
+## Change the permissions for the script 
 
   `sudo chmod +x ups.sh`
 
-# copy the script to the init.d directory to run the script on startup
+## Copy the script to the init.d directory to run the script on startup
 
   `sudo cp ups.sh /etc/init.d/`
 
-# update the rc file
+## Update the rc file
 
   `sudo update-rc.d ups.sh defaults`
