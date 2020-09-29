@@ -65,7 +65,7 @@ do
 		echo "$(date +%F_%T) - On UPS power for $power_timer ms" >> $LOG_FILE;
 	else 
 		power_timer=0;
-		echo "$(date +%F_%T) - On mains power" >> $LOG_FILE;
+		#echo "$(date +%F_%T) - On mains power" >> $LOG_FILE;
 	fi
 	
 	#If power was not restored in 10 seconds
