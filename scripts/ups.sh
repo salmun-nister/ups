@@ -63,7 +63,7 @@ do
 		power_timer=$((power_timer+1));
 		#echo "$power_timer";
 		echo "$(date +%F_%T) - On UPS power for $power_timer ms" >> $LOG_FILE;
-	else 
+	else
 		power_timer=0;
 		#echo "$(date +%F_%T) - On mains power" >> $LOG_FILE;
 	fi
